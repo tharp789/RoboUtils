@@ -133,7 +133,7 @@ class McapImageExtractor(Node):
 
 def main():
     rclpy.init()
-    bag_folder = "/media/tyler/Storage/field_tests/mocap_handheld/wire_tracking_filtered.mcap"
+    bag_folder = "/media/tyler/Storage/field_tests/250815_vtolwire_2/wire_tracking_short.mcap"
     rgb_topic_name = '/wire_cam/zed_node/left/image_rect_color'
     depth_topic_name = '/wire_cam/zed_node/depth/depth_registered'
     depth_camera_info_topic_name = '/wire_cam/zed_node/depth/camera_info'
