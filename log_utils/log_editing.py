@@ -35,14 +35,26 @@ def keep_lines_by_keywords(lines, keywords):
 
 if __name__ == "__main__":
     # Example usage
-    input_file_path = "/home/tyler/Downloads/docker.log"
-    output_file_path = "/home/tyler/Downloads/filtered_log.txt"
+    input_file_path = "/home/tyler/Documents/Debugging/video_down_091125.txt"
+    output_file_path = "/home/tyler/Documents/Debugging/vid_down_filtered_091125.txt"
 
     # Load the file
     lines = load_txt_file(input_file_path)
 
     # Remove lines containing the specified keywords
-    keywords_to_remove = ["foxglove_bridge", "mavros_node", "doodle_companion_publisher", "transport", "zenoh"]
+    keywords_to_remove = ["foxglove_bridge", 
+                          "mavros", 
+                          "doodle", 
+                          "transport", 
+                          "zenoh",
+                          "detection_mapping",
+                          "dynamic_rtl",
+                          "fence_node",
+                          "lte_modem_monitor",
+                          "session_monitoring",
+                          "earthranger",
+                          "pilot_registry_node",
+                          "yaw drift"]
     filtered_lines = remove_lines_by_keywords(lines, keywords_to_remove)
 
     # Keep lines containing the specified keywords

@@ -1,7 +1,5 @@
 import os
 import numpy as np
-from mcap.reader import make_reader
-from mcap_ros2.decoder import DecoderFactory as Ros2DecoderFactory
 import rosbag2_py
 from rosidl_runtime_py.utilities import get_message
 import rclpy
@@ -59,9 +57,9 @@ class McapPoseExtractor(Node):
 
 def main():
     rclpy.init()
-    bag_path = "/media/tyler/Storage/field_tests/250815_vtolwire_1/wire_tracking_short.mcap"
+    bag_path = "/home/tyler/Documents/MSR/field_tests/250828_afca/split_data/wire_data_20250828_092730/wire_data_20250828_092730_0.mcap"
     pose_topic_name = "/mavros/local_position/pose"
-    csv_output_path = "/media/tyler/Storage/field_tests/250815_vtolwire_1/pose_data.csv"
+    csv_output_path = "/home/tyler/Documents/MSR/field_tests/250828_afca/split_data/wire_data_20250828_092730/pose_data.csv"
     extractor = McapPoseExtractor(bag_path, pose_topic_name, csv_output_path)
     extractor.extract_poses()
     rclpy.shutdown()
