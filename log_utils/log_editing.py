@@ -35,31 +35,30 @@ def keep_lines_by_keywords(lines, keywords):
 
 if __name__ == "__main__":
     # Example usage
-    input_file_path = "/home/tyler/Documents/Debugging/video_down_091125.txt"
-    output_file_path = "/home/tyler/Documents/Debugging/vid_down_filtered_091125.txt"
+    input_file_path = "/home/tyler/Documents/Debugging/oct20_flight3.log"
+    output_file_path = "/home/tyler/Documents/Debugging/oct20_flight3_filtered.txt"
 
     # Load the file
     lines = load_txt_file(input_file_path)
 
     # Remove lines containing the specified keywords
-    keywords_to_remove = ["foxglove_bridge", 
-                          "mavros", 
-                          "doodle", 
-                          "transport", 
-                          "zenoh",
-                          "detection_mapping",
-                          "dynamic_rtl",
-                          "fence_node",
-                          "lte_modem_monitor",
-                          "session_monitoring",
-                          "earthranger",
-                          "pilot_registry_node",
-                          "yaw drift"]
-    filtered_lines = remove_lines_by_keywords(lines, keywords_to_remove)
+    # keywords_to_remove = ["foxglove_bridge", 
+    #                       "mavros", 
+    #                       "doodle", 
+    #                       "transport", 
+    #                       "zenoh",
+    #                       "detection_mapping",
+    #                       "dynamic_rtl",
+    #                       "fence_node",
+    #                       "lte_modem_monitor",
+    #                       "session_monitoring",
+    #                       "earthranger",
+    #                       "pilot_registry_node"]
+    # filtered_lines = remove_lines_by_keywords(lines, keywords_to_remove)
 
     # Keep lines containing the specified keywords
-    # keywords_to_keep = ["rtsp_detection", "doodle_companion_publisher"]
-    # filtered_lines = keep_lines_by_keywords(lines, keywords_to_keep)
+    keywords_to_keep = ["router-9", "router-8", "vision_manager"]
+    filtered_lines = keep_lines_by_keywords(lines, keywords_to_keep)
 
     # Save the filtered lines to a new file
     save_txt_file(output_file_path, filtered_lines)

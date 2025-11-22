@@ -9,6 +9,7 @@ import rclpy
 from rclpy.serialization import deserialize_message
 from rclpy.node import Node
 from sensor_msgs.msg import Image
+import rosbag2_py
 
 
 class McapImageExtractor(Node):
@@ -73,6 +74,42 @@ class McapImageExtractor(Node):
  
                 self.get_logger().info(f"Saved {self.image_count} images to {self.rgb_output_folder} and {self.depth_output_folder}")
 
+    def extract_images_alternate(self):
+        for filename in self.bag_files:
+            with open(filename, "rb") as f:
+                reader = make_reader(f)   # IMPORTANT: no Ros2DecoderFactory()
+
+                for msg_view in reader.iter_messages():   # raw messages, no UTF-8 decoding
+                    try:
+                        topic = msg_view[1].topic
+                        raw_data = msg_view[2].data
+                        timestamp = msg_view[2].log_time
+                        msg_type_str = msg_view[0].name
+                        msg_type = get_message(msg_type_str)
+
+                        if topic == self.rgb_topic_name:
+                            self.process_rgb_image(raw_data, timestamp, msg_type)
+
+                        elif topic == self.depth_topic_name:
+                            self.process_depth_image(raw_data, timestamp, msg_type)
+
+                        elif topic in [
+                            self.depth_camera_info_topic_name,
+                            self.rgb_camera_info_topic_name,
+                        ]:
+                            self.process_camera_info(
+                                raw_data,
+                                msg_type,
+                                topic
+                            )
+                    except Exception as e:
+                        self.get_logger().error(f"Failed to process message: {e}")
+
+            self.get_logger().info(
+                f"Saved {self.image_count} images to {self.rgb_output_folder} "
+                f"and {self.depth_output_folder}"
+            )
+
     def process_rgb_image(self, raw_data, timestamp, msg_type):
         try:
             msg = deserialize_message(raw_data, msg_type)
@@ -133,8 +170,9 @@ class McapImageExtractor(Node):
 
 def main():
     rclpy.init()
-    bag_folder = "/media/tyler/Storage/field_tests/250815_vtolwire_2/wire_tracking_short.mcap"
-    rgb_topic_name = '/wire_cam/zed_node/left/image_rect_color'
+    bag_folder = "/media/tyler/hummingbird/tracking/vtol1_tracking/tracking_filtered.mcap"
+    # rgb_topic_name = '/wire_cam/zed_node/left/image_rect_color'
+    rgb_topic_name = '/pincer/tracking_2d_viz'
     depth_topic_name = '/wire_cam/zed_node/depth/depth_registered'
     depth_camera_info_topic_name = '/wire_cam/zed_node/depth/camera_info'
     rgb_camera_info_topic_name = '/wire_cam/zed_node/left/camera_info'
@@ -142,7 +180,8 @@ def main():
     try:
         extractor = McapImageExtractor(bag_folder, rgb_topic_name, depth_topic_name, 
                                        depth_camera_info_topic_name, rgb_camera_info_topic_name)
-        extractor.extract_images()
+        # extractor.extract_images()
+        extractor.extract_images_alternate()
     finally:
         rclpy.shutdown()
 
