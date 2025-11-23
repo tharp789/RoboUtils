@@ -20,8 +20,8 @@ def make_video(image_files, output_path, fps=10):
 
 if __name__ == "__main__":
 
-    image_folder = "/media/tyler/hummingbird/tracking/vtol2_tracking/rgb_images"
-    output_path = "/media/tyler/hummingbird/tracking/vtol2_tracking/rgb_video.mp4"
+    image_folder = "/media/tyler/hummingbird/wire_tracking_05-07_40fov/ransac_results_3d/"
+    output_path = "/media/tyler/hummingbird/wire_tracking_05-07_40fov/ransac_results_3d_video.mp4"
     fps = 30
 
     rgb_image_files = sorted(glob.glob(os.path.join(image_folder, "*.png")))
